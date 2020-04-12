@@ -1,0 +1,13 @@
+cat input | grep '[0-9]*' | tr -d '[a-z]' | grep -v -e '^$'
+cat input | grep "mysql.*"
+cat input | head -n 10
+10th line -> cat input | awk 'NR==10'
+
+987-123-4567
+(123) 456-7890
+(xxx) xxx-xxxx
+xxx-xxx-xxxx
+
+cat input | grep -e '[0-9]\{3\}\-[0-9]\{3\}\-[0-9]\{4\}' -e '([0-9]\{3\})\s[0-9]\{3\}\-[0-9]\{4\}' | grep -v "[a-z]
+
+cat input | tr -d '[:punct:]'
