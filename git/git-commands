@@ -1,0 +1,3 @@
+#Git remove first commit
+git update-ref -d HEAD
+
