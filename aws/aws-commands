@@ -1,0 +1,16 @@
+>aws s3 ls s3://mybucket
+>aws s3 cp myfolder s3://mybucket/myfolder --recursive
+>aws s3 sync . s3://my-bucket/path --exclude "*.txt" --include "MyFile*.txt"
+>aws s3 sync myfolder s3://mybucket/myfolder --exclude *.tmp
+>aws s3 sync . s3://my-bucket/path
+>aws s3 sync . s3://my-bucket/path --delete
+>aws s3 sync . s3://my-bucket/path --storage-class STANDARD_IA
+>aws s3 rm s3://mybucket/folder --recursive
+
+# make bucket
+>aws s3 mb s3://bucket-name
+# delete bucket
+>aws s3 rb s3://bucket-name
+>aws s3 rb s3://bucket-name --force
+
+
