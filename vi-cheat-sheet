@@ -16,6 +16,12 @@ $ - end of the line
 G - last line
 gg - first line
 
+-copy and paste
+Esc+v then arrow keys to select text
+copy marked lines with y
+cut market lines with d
+past lines with p
+
 -delete
 x - delete a single character
 D - delete the rest of the line
