@@ -1,0 +1,24 @@
+:w - save file
+:set nu - display line numbers
+
+-search and replace
+/pattern - search a pattern
+
+n - next occurrence
+%/pattern/replace/g - replace all occurrence
+
+-move
+^ - beginning of the line
+$ - end of the line
+G - last line
+gg - first line
+
+-delete
+x - delete a single character
+D - delete the rest of the line
+dd - delete the current line
+:x,yd - delete lines from x to y
+
+-insert
+I - insert before the current line
+o - insert a empty line after the current line
