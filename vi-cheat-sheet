@@ -1,11 +1,14 @@
 :w - save file
 :set nu - display line numbers
+:set number - display line numbers
 
 -search and replace
 /pattern - search a pattern
+?pattern - search backwards
 
 n - next occurrence
 %/pattern/replace/g - replace all occurrence
+%/pattern/replace/c - replace with confirm
 
 -move
 ^ - beginning of the line
@@ -22,3 +25,26 @@ dd - delete the current line
 -insert
 I - insert before the current line
 o - insert a empty line after the current line
+
+-undo
+u - undo last change
+U - undo all changes
+
+- parameters
+:set list - show invisible characters
+
+-window motion
+<ctrl> d - scroll down half screen
+<ctrl> u - scroll up half screen
+<ctrl> f - page forward
+<ctrl> b - page backward
+<ctrl> g - display current line number
+:n - go to line n
+
+-cursor motion
+fc - find c
+fk - find k
+
+- file
+w file - write to a file
+w >> file - append to file
