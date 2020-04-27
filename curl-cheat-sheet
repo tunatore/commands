@@ -1,0 +1,39 @@
+-help
+>curl --help
+
+-options
+-v verbose
+-vv more verbose
+-d data
+--data
+--data-urlencode
+-s silent
+-o output write to a file
+curl -v https://www.google.com -o test_curl_output.txt
+-X explicit method
+
+-headers
+>curl -I https://www.google.com
+
+-data
+curl -d key1=value1 -d key2=value2 http://server//resource
+curl --data-urlencode "key1=test value" http://server//resource
+
+-JSON GET
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET "https://jsonplaceholder.typicode.com/todos/1"
+
+-JSON POST
+curl -d '{"key1":"value1", "key2":"value2", "test123456":"value123456"}' -H "Content-Type: application/json" -X POST http://service//resource
+
+-POST
+-application/x-www-form-urlencoded is default.
+curl -d "param1=value1&param2=value2&test1=value1" -X POST http://service//resource
+
+-curl scp download a file
+curl -u username:password --key ~/.ssh/id_rsa scp://server/~/file.txt
+
+-curl ftp download a file
+curl -u username:password ftp://server//file -o output-filename
+
+-curl upload a file
+curl -u username:password --upload-file uploadFile ftp://server/filename
