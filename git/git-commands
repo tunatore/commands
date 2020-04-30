@@ -1,3 +1,7 @@
 #Git remove first commit
 git update-ref -d HEAD
 
+#git unstage
+git reset
+git status
+
