@@ -1,0 +1,42 @@
+#avro commands to read avro files
+#download location https://mvnrepository.com/artifact/org.apache.avro/avro-tools
+
+# see options
+>java -jar avro-tools-1.9.2.jar
+
+>java -jar avro-tools-1.9.2.jar fromjson
+Expected 1 arg: input_file
+Option                  Description
+------                  -----------
+--codec <String>        Compression codec (default: null)
+--level <Integer>       Compression level (only applies to deflate and xz)
+                          (default: -1)
+--schema [String]       Schema
+--schema-file [String]  Schema File
+
+#let's say you have the following sample schema
+favorite_colors.avsc
+{
+   "namespace": "example.avro",
+   "type": "record",
+   "name": "User",
+   "fields": [
+      {"name": "name", "type": "string"},
+      {"name": "favorite_number",  "type": "int"},
+      {"name": "favorite_color", "type": "string"}
+   ]
+ }
+
+#and following json
+favorite_colors.json
+{"name": "Alyssa", "favorite_number": 256, "favorite_color": "null"}
+{"name": "Ben", "favorite_number": 7, "favorite_color": "red"}
+
+#JSON to binary avro file
+>java -jar avro-tools-1.7.7.jar fromjson --schema-file favorite_colors.avsc favorite_colors.json > favorite_colors.avro
+
+#Avro to JSON
+>java -jar avro-tools-1.7.7.jar tojson favorite_colors.avro > favorite_colors.json
+
+#Avro to schema
+>java -jar avro-tools-1.7.7.jar getschema favorite_colors.avro > favorite_colors.avsc

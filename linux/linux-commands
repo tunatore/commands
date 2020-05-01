@@ -11,3 +11,9 @@ xxx-xxx-xxxx
 cat input | grep -e '[0-9]\{3\}\-[0-9]\{3\}\-[0-9]\{4\}' -e '([0-9]\{3\})\s[0-9]\{3\}\-[0-9]\{4\}' | grep -v "[a-z]
 
 cat input | tr -d '[:punct:]'
+
+# go to beginning of command line
+ctrl a
+
+#go to the end of the command line command
+ctrl e
