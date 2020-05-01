@@ -5,3 +5,8 @@ git update-ref -d HEAD
 git reset
 git status
 
+#git one line commit
+git log --pretty=oneline
+
+#git search commit with grep
+git log --pretty=oneline --grep="text"
