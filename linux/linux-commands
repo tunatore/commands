@@ -17,3 +17,13 @@ ctrl a
 
 #go to the end of the command line command
 ctrl e
+
+# awk
+>echo test1:test2:test3:test4 | awk -F: '{print $4}'
+test4
+>echo test1:test2:test3:test4 | awk -F: '{print $3}'
+test3
+>echo test1:test2:test3:test4 | awk -F: '{print $2}'
+test2
+>echo test1:test2:test3:test4 | awk -F: '{print $1}'
+test1

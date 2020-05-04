@@ -10,3 +10,17 @@ git log --pretty=oneline
 
 #git search commit with grep
 git log --pretty=oneline --grep="text"
+
+#git reflog to see commit - reset history - you can use with reset
+git reflog
+
+#git tag list
+git tag -l
+#git annotated tag
+git tag -a v1.6 -m "version 1.6"
+#delete a tag
+git tag -d v1.6
+#checkout a tag
+git checkout v1.6
+#fetch all tags
+git fetch --tags
