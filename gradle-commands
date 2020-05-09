@@ -1,0 +1,20 @@
+>gradle dependencies
+>gradle buildEnvironment
+>gradle dependencyInsight
+>gradle clean
+# uses the build cache
+>gradle --build-cache compileJava
+>gradle --build-cache assemble
+#no cache
+>gradle --no-build-cache compileJava
+
+#logs
+-q or --quiet
+-w, --warn
+-i, --info
+-d, --debug
+
+#continue even if task fails
+>gradle test --continue
+
+>gradle tasks --all
