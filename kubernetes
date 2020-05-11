@@ -1,0 +1,28 @@
+Kubernetes:
+
+kubectl:
+
+Install latest kubernetes kubectl:
+>curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl"
+
+If you want to install a specific version:
+>curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/darwin/amd64/kubectl
+
+Change permissions:
+>chmod +x ./kubectl
+
+Move the kubectl binary to path:
+>sudo mv ./kubectl /usr/local/bin/kubectl
+
+Ensure that you have the latest version installed:
+>kubectl version --client
+Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.2", GitCommit:"52c56ce7a8272c798dbc29846288d7cd9fbae032", GitTreeState:"clean", BuildDate:"2020-04-16T11:56:40Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"darwin/amd64"}
+
+Enabling shell autocompletion for kubectl:
+Ensure that bash version installed then Bash 4.1+
+>echo $BASH_VERSION or >bash --version
+>kubectl completion bash
+
+Enable kubectl autocompletion:
+>echo 'source <(kubectl completion bash)' >>~/.bash_profile
+>kubectl completion bash >/usr/local/etc/bash_completion.d/kubectl
