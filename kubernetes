@@ -26,3 +26,40 @@ Ensure that bash version installed then Bash 4.1+
 Enable kubectl autocompletion:
 >echo 'source <(kubectl completion bash)' >>~/.bash_profile
 >kubectl completion bash >/usr/local/etc/bash_completion.d/kubectl
+
+#Install Minikube
+#Minikube, a tool that runs a single-node Kubernetes cluster in a virtual machine on your personal computer.
+
+# Install Homebrew if it is not installed
+>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+>brew install minikube
+
+or
+
+>curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 \
+   && chmod +x minikube
+
+#Add minikube to path
+>sudo mv minikube /usr/local/bin
+
+#Download VirtualBox and run with Minikube driver
+>minikube start --driver=virtualbox
+
+>minikube status
+
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+#stop your cluster
+>minikube stop
+
+#if you installed Minikube
+>minikube start
+
+#delete Minikube local state
+>minikube delete
