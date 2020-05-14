@@ -1,0 +1,74 @@
+#context and configuration
+>kubectl config view # show merged configuration
+>kubectl config view -o jsonpath='{.users[*].name}' # list of users
+>kubectl config get-contexts # get contexts
+>kubectl config current-context # get current context
+
+#switch context
+>kubectl config use-context docker-for-desktop
+Switched to context "docker-for-desktop".
+>kubectl config get-contexts
+CURRENT   NAME                 CLUSTER          AUTHINFO         NAMESPACE
+          docker-desktop       docker-desktop   docker-desktop
+*         docker-for-desktop   docker-desktop   docker-desktop
+          minikube             minikube         minikube
+
+#create a new user with basic authentication
+>kubectl config set-credentials kubeuser/foo.kubernetes.com --username=kubeuser --password=password
+User "kubeuser/foo.kubernetes.com" set.
+
+>kubectl config view -o jsonpath='{.users[*].name}'
+docker-desktop kubeuser/foo.kubernetes.com minikube%
+
+#delete a user
+>kubectl config unset users.kubeuser/foo.kubernetes.com
+Property "users.kubeuser/foo.kubernetes.com" unset.
+>kubectl config view -o jsonpath='{.users[*].name}'
+docker-desktop minikube%
+
+#apply to create resources
+kubectl apply -f ./manifest.yaml                           # create resource
+kubectl apply -f ./manifest1.yaml -f ./manifest2.yaml      # create from multiple files
+kubectl apply -f ./directory                               # create resource(s) in all manifest files in dir
+kubectl apply -f https://url                               # create resource(s) from url
+kubectl create deployment nginx --image=nginx              # start a single instance of nginx
+kubectl explain pods                                       # get the documentation for pod manifests
+
+#Create multiple YAML objects/resources from stdin
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-sleep
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    args:
+    - sleep
+    - "1000000"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-sleep-less
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    args:
+    - sleep
+    - "1000"
+EOF
+
+# Create a secret with several keys
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  password: $(echo -n "password" | base64 -w0)
+  username: $(echo -n "username" | base64 -w0)
+EOF
