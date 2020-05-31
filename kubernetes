@@ -1,5 +1,5 @@
 Kubernetes:
-
+alias k=kubectl
 kubectl:
 
 Install latest kubernetes kubectl:
@@ -63,6 +63,9 @@ kubeconfig: Configured
 
 #delete Minikube local state
 >minikube delete
+
+>kubectl config view
+>minikube dashboard
 
 #Install dashboard
 >kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
@@ -131,3 +134,12 @@ token:      eyJhbGciOiJSUzI1NiIsImtpZCI6Im9DbDkzZlR4Z05fa2tsSkhKTW5XX0gyeF9iVHZ2
 #custom column format
 kubectl get pods \
   -o custom-columns='NAME:metadata.name,NODE:spec.nodeName'
+
+>kubectl run --help
+
+Kubectl shell autocompletion
+>kubectl completion zsh
+>echo 'source <(kubectl completion zsh)' >>~/.zshrc
+>echo 'alias k=kubectl' >>~/.zshrc
+>echo 'complete -F __start_kubectl k' >>~/.zshrc
+>source ~/.zshrc
