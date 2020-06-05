@@ -35,9 +35,3 @@ test1
 sed 's///' test.txt
 
 >diff -c test test2
-*** test	Mon Jun  1 21:32:01 2020
---- test2	Mon Jun  1 21:26:09 2020
-***************
-*** 1 ****
-- ZZ
---- 0 ----
