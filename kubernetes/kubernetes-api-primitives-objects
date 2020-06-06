@@ -1,3 +1,5 @@
+https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/
+
 >minikube start
 >kubectl api-resources -o name
 >kubectl get pods
