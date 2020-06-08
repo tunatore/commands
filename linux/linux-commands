@@ -35,3 +35,16 @@ test1
 sed 's///' test.txt
 
 >diff -c test test2
+
+>top
+>df -h
+>ls -lh
+
+CTRL-Z - suspend
+> ./application & -> run in background
+> jobs
+> bg [number] -> continue suspended job with CTRL-Z
+> fg [number] -> bring background job to the foreground
+
+>chmod 755 script -> owner - rwx, group rx, others rx
+>chmod +x script -> owner - rwx, group rx, others rx
