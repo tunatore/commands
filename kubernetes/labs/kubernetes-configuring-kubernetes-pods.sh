@@ -8,6 +8,8 @@ data:
     candy.peppermint.power=100000000
     candy.nougat-armor.strength=10
 
+#candy.fg is the name of the file under folder.
+
 >kubectl apply -f candy-service-config.yml
 
 >vi db-password-secret.yml
