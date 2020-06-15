@@ -17,3 +17,7 @@ spec:
         port: 80
 
 >kubectl apply -f ~/candy-service-pod.yml
+
+>kubectl get pods
+NAME            READY   STATUS    RESTARTS   AGE
+candy-service   1/1     Running   0          3m29s
