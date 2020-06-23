@@ -1,3 +1,8 @@
+>kubectl get deploy
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+auth-deployment   2/2     2            2           90m
+data-deployment   3/3     3            3           90m
+
 >kubectl get deployment auth-deployment -o yaml
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -237,11 +242,6 @@ spec:
 
 >kubectl apply -f data-svc.yml
 
->kubectl get deploy
-NAME              READY   UP-TO-DATE   AVAILABLE   AGE
-auth-deployment   2/2     2            2           90m
-data-deployment   3/3     3            3           90m
-
 >kubectl get svc
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 auth-svc     NodePort    10.105.86.213    <none>        8080:32369/TCP   6m14s
@@ -251,6 +251,10 @@ kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          92m
 >kubectl get ep auth-svc
 NAME       ENDPOINTS                     AGE
 auth-svc   10.244.1.2:80,10.244.2.3:80   7m2s
+
+>kubectl get ep data-svc
+NAME       ENDPOINTS                                   AGE
+data-svc   10.244.1.3:80,10.244.1.4:80,10.244.2.2:80   15m
 
 >kubectl get pods
 NAME                              READY   STATUS    RESTARTS   AGE
