@@ -1,5 +1,6 @@
 -launch a pod using an image on a specific port
 kubectl run sise --image=quay.io/openshiftlabs/simpleservice:0.5.0 --port=9876
+
 -see the pod is running
 kubectl get pods
 NAME                                 READY   STATUS      RESTARTS   AGE
@@ -21,15 +22,18 @@ rolling-deployment-7f76fc567-694r9   1/1     Running     0          19d
 rolling-deployment-7f76fc567-k2ktd   1/1     Running     0          19d
 rolling-deployment-7f76fc567-xhfhs   1/1     Running     0          19d
 sise                                 1/1     Running     0          3m16s
+
 -get the ip of a running pod
 kubectl describe pod sise | grep IP:
 IP:           172.17.0.24
   IP:  172.17.0.24
+
 -test pod using curl
 curl 172.17.0.24:9876/info
 
 -create a pod using a configuration file
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pods/pod.yaml
+
 -get pods
 kubectl get pods
 NAME                                 READY   STATUS      RESTARTS   AGE
@@ -63,6 +67,7 @@ bin                etc  lib   media  opt  root  sbin  sys  usr
 
 -create a constraint container
 kubectl create -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pods/constraint-pod.yaml
+
 -specify the details of constraint container
 kubectl describe pod constraintpod
 ...
@@ -76,6 +81,7 @@ Containers:
       cpu:      500m
       memory:   64Mi
 ...
+
 -delete containers
 kubectl delete pod twocontainers
 kubectl delete pod constraintpod
