@@ -23,6 +23,11 @@ No LimitRange resource.
 -create a new namespace
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/ns/ns.yaml
 
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test
+
 -kubectl get ns
 NAME                   STATUS        AGE
 default                Active        50d
@@ -50,6 +55,17 @@ test                   Active        4s
 
 -create a pod in a namespace
 kubectl apply --namespace=test -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/ns/pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podintest
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
 
 -get pods in a namespace
 kubectl get pods --namespace=test

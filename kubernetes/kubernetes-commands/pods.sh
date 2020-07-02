@@ -34,6 +34,23 @@ curl 172.17.0.24:9876/info
 -create a pod using a configuration file
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pods/pod.yaml
 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: twocontainers
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+  - name: shell
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "sleep 10000"
+
 -get pods
 kubectl get pods
 NAME                                 READY   STATUS      RESTARTS   AGE
@@ -67,6 +84,21 @@ bin                etc  lib   media  opt  root  sbin  sys  usr
 
 -create a constraint container
 kubectl create -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pods/constraint-pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: constraintpod
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "500m"
 
 -specify the details of constraint container
 kubectl describe pod constraintpod

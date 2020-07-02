@@ -1,8 +1,43 @@
 -create a persistent volume
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pv/pv.yaml
 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  finalizers:
+  - kubernetes.io/pv-protection
+  labels:
+    volume: pv0001
+  name: pv0001
+  resourceVersion: "227035"
+  selfLink: /api/v1/persistentvolumes/pv0001
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: myclaim
+    namespace: default
+
 -create a persistent volume claim
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pv/pvc.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 
 -get persistent volume claim
 kubectl get pvc
@@ -12,6 +47,30 @@ myclaim   Bound    pv0001   5Gi        RWO            standard        25s
 
 -create a deployment that uses persistent volume claim
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/pv/deploy.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mypv
+  template:
+    metadata:
+      labels:
+        app: mypv
+    spec:
+      containers:
+      - name: shell
+        image: centos:7
+        command:
+        - "bin/bash"
+        - "-c"
+        - "sleep 10000"
+        volumeMounts:
+        - name: mypd
 
 -get pods
 kubectl get po

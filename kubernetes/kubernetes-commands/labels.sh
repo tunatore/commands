@@ -1,5 +1,19 @@
 -run a container using yaml
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/labels/pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: labelex
+  labels:
+    env: development
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+
 kubectl get pods --show-labels
 NAME                                 READY   STATUS    RESTARTS   AGE
 labelex                              1/1     Running   0          9s
@@ -46,6 +60,20 @@ labelex   1/1     Running   0          3m12s
 
 -launch another pod
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/labels/anotherpod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: labelexother
+  labels:
+    env: production
+    owner: michael
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
 
 -get pods
 kubectl get pods
