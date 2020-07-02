@@ -639,5 +639,3 @@ csinodes                                       storage.k8s.io                 fa
 storageclasses                    sc           storage.k8s.io                 false        StorageClass
 volumeattachments                              storage.k8s.io                 false        VolumeAttachment
 error: unable to retrieve the complete list of server APIs: metrics.k8s.io/v1beta1: the server is currently unable to handle the request
-
-
