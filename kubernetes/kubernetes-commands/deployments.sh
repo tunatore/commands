@@ -1,5 +1,27 @@
 -create a deployment
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/deployments/d09.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sise-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sise
+  template:
+    metadata:
+      labels:
+        app: sise
+    spec:
+      containers:
+      - name: sise
+        image: quay.io/openshiftlabs/simpleservice:0.5.0
+        ports:
+        - containerPort: 9876
+        env:
+        - name: SIMPLE_SERVICE_VERSION
+          value: "0.9"
 
 -get pods
 kubectl get pods
@@ -99,6 +121,29 @@ Events:
 
 -change version
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/deployments/d10.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sise-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sise
+  template:
+    metadata:
+      labels:
+        app: sise
+    spec:
+      containers:
+      - name: sise
+        image: quay.io/openshiftlabs/simpleservice:0.5.0
+        ports:
+        - containerPort: 9876
+        env:
+        - name: SIMPLE_SERVICE_VERSION
+          value: "1.0"
 
 -you can also manually edit deployment using the following command
 kubectl edit deploy/sise-deploy

@@ -1,11 +1,22 @@
 -create a pod exposing an endpoint /health and responding 200 having livenessProbe
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/healthz/pod.yaml
-livenessProbe:
-  initialDelaySeconds: 2
-  periodSeconds: 5 -> every 5 seconds
-  httpGet:
-    path: /health
-    port: 9876
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hc
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    livenessProbe:
+      initialDelaySeconds: 2
+      periodSeconds: 5
+      httpGet:
+        path: /health
+        port: 9876
 
 -get pods
 NAME   READY   STATUS    RESTARTS   AGE
@@ -63,6 +74,28 @@ Events:
 
 -create a bad pod
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/healthz/badpod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    env:
+    - name: HEALTH_MIN
+      value: "1000"
+    - name: HEALTH_MAX
+      value: "4000"
+    livenessProbe:
+      initialDelaySeconds: 2
+      periodSeconds: 5
+      httpGet:
+        path: /health
+        port: 9876
 
 -get pods
 NAME     READY   STATUS    RESTARTS   AGE
@@ -135,6 +168,22 @@ hc       1/1     Running   0          3m51s
 
 -create a pod with readinessProbe
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/healthz/ready.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ready
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    readinessProbe:
+      initialDelaySeconds: 10
+      httpGet:
+        path: /health
+        port: 9876
 
 -describe pod
 kubectl describe pod ready

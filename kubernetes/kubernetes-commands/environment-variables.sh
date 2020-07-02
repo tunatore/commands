@@ -1,5 +1,18 @@
 -create a pod
 kubectl apply -f https://raw.githubusercontent.com/openshift-evangelists/kbe/master/specs/envs/pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envs
+spec:
+  containers:
+  - name: sise
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    env:
+    - name: SIMPLE_SERVICE_VERSION
+      value: "1.0"
 
 -get pods
 NAME   READY   STATUS    RESTARTS   AGE
