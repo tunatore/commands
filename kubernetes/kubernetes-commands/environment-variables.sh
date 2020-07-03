@@ -15,6 +15,7 @@ spec:
       value: "1.0"
 
 -get pods
+kubectl get pods
 NAME   READY   STATUS    RESTARTS   AGE
 envs   1/1     Running   0          18s
 

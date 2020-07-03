@@ -98,11 +98,13 @@ spec:
         port: 9876
 
 -get pods
+kubectl get pods
 NAME     READY   STATUS    RESTARTS   AGE
 badpod   1/1     Running   0          44s
 hc       1/1     Running   0          2m48s
 
 -describe pod
+kubectl describe pod badpod
 Name:         badpod
 Namespace:    default
 Priority:     0
