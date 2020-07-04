@@ -17,6 +17,9 @@ Session Affinity:         None
 External Traffic Policy:  Cluster
 Events:                   <none>
 
+-get help for command
+>kubectl get pods --help
+
 >kubectl get pods --all-namespaces --show-labels
 NAMESPACE     NAME                                    READY   STATUS             RESTARTS   AGE    LABELS
 gem           bowline                                 0/1     ImagePullBackOff   0          107m   role=oauth
@@ -78,10 +81,11 @@ the exact distribution terms for each program are described in the
 individual files in /usr/share/doc/*/copyright.
 
 Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
-applicable law.
+applicable law.'
 
 cloud_user@ip-10-0-1-101:~$ sudo -i
 [sudo] password for cloud_user:
+
 root@ip-10-0-1-101:~# kubectl describe service oauth-provider -n gem
 Name:                     oauth-provider
 Namespace:                gem
@@ -98,6 +102,7 @@ Endpoints:
 Session Affinity:         None
 External Traffic Policy:  Cluster
 Events:                   <none>
+
 root@ip-10-0-1-101:~# kubectl get pods --all-namespaces --show-labels
 NAMESPACE     NAME                                    READY   STATUS             RESTARTS   AGE    LABELS
 gem           bowline                                 0/1     ImagePullBackOff   0          107m   role=oauth
@@ -115,8 +120,11 @@ kube-system   kube-proxy-5dvb9                        1/1     Running           
 kube-system   kube-proxy-snjz7                        1/1     Running            0          107m   controller-revision-hash=796f594d99,k8s-app=kube-proxy,pod-template-generation=1
 kube-system   kube-scheduler-ip-10-0-1-101            1/1     Running            0          106m   component=kube-scheduler,tier=control-plane
 pebble        square                                  1/1     Running            0          107m   role=db
+
 root@ip-10-0-1-101:~# vi /usr/ckad/broken-object-name.txt
+
 root@ip-10-0-1-101:~# kubectl get pod bowline -n gem -o json > /usr/ckad/broken-object.json
+
 root@ip-10-0-1-101:~# vi /usr/ckad/broken-object.json
 
                 "lastTransitionTime": "2020-06-28T08:03:30Z",
@@ -189,3 +197,6 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+
+-delete a pod
+>kubectl delete pod bowline -n gem

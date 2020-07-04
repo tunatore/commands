@@ -31,6 +31,8 @@ spec:
             port: 80
 
 >kubectl apply -f pizza-deployment.yml
+
+>vi pizza-service.yml
 apiVersion: v1
 kind: Service
 metadata:
@@ -55,7 +57,7 @@ pizza-deployment   3/3     3            3           7m54s
 NAME            TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 pizza-service   NodePort   10.104.252.134   <none>        80:30080/TCP   7m39s
 
->kubectl get ep pizza-service -n pizz
+>kubectl get ep pizza-service -n pizza
 NAME            ENDPOINTS                                   AGE
 pizza-service   10.244.1.4:80,10.244.2.2:80,10.244.2.3:80   9m27s
 

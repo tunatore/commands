@@ -136,8 +136,6 @@ individual files in /usr/share/doc/*/copyright.
 Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
 applicable law.
 
-cloud_user@ip-10-0-1-101:~$
-cloud_user@ip-10-0-1-101:~$
 cloud_user@ip-10-0-1-101:~$ kubectl get pods --all-namespaces
 NAMESPACE     NAME                                    READY   STATUS    RESTARTS   AGE
 candy-store   auth-ws                                 2/2     Running   1          92m
@@ -159,6 +157,7 @@ kube-system   kube-proxy-n52b6                        1/1     Running   0       
 kube-system   kube-proxy-rgjgt                        1/1     Running   0          92m
 kube-system   kube-scheduler-ip-10-0-1-101            1/1     Running   0          91m
 kube-system   metrics-server-6447c7cf8c-stc5k         1/1     Running   0          92m
+
 cloud_user@ip-10-0-1-101:~$ kubectl get pods --all-namespaces
 NAMESPACE     NAME                                    READY   STATUS             RESTARTS   AGE
 candy-store   auth-ws                                 2/2     Running            1          92m
@@ -180,7 +179,9 @@ kube-system   kube-proxy-n52b6                        1/1     Running           
 kube-system   kube-proxy-rgjgt                        1/1     Running            0          93m
 kube-system   kube-scheduler-ip-10-0-1-101            1/1     Running            0          92m
 kube-system   metrics-server-6447c7cf8c-stc5k         1/1     Running            0          92m
+
 cloud_user@ip-10-0-1-101:~$ vi /home/cloud_user/debug/broken-pod-name.txt
+
 cloud_user@ip-10-0-1-101:~$ kubectl get pods --all-namespaces
 NAMESPACE     NAME                                    READY   STATUS             RESTARTS   AGE
 candy-store   auth-ws                                 2/2     Running            1          93m
@@ -202,11 +203,13 @@ kube-system   kube-proxy-n52b6                        1/1     Running           
 kube-system   kube-proxy-rgjgt                        1/1     Running            0          94m
 kube-system   kube-scheduler-ip-10-0-1-101            1/1     Running            0          93m
 kube-system   metrics-server-6447c7cf8c-stc5k         1/1     Running            0          93m
+
 cloud_user@ip-10-0-1-101:~$ kubectl top pod -n candy-store
 NAME       CPU(cores)   MEMORY(bytes)
 auth-ws    200m         9Mi
 candy-ws   100m         9Mi
 cart-ws    0m           0Mi
+
 cloud_user@ip-10-0-1-101:~$ vi vi /home/cloud_user/debug/high-cpu-pod-name.txt
 2 files to edit
 cloud_user@ip-10-0-1-101:~$ vi /home/cloud_user/debug/high-cpu-pod-name.txt
@@ -274,8 +277,9 @@ Events:
   ----     ------     ----                   ----                    -------
   Warning  Unhealthy  25m (x91 over 99m)     kubelet, ip-10-0-1-102  Liveness probe failed: HTTP probe failed with statuscode: 404
   Warning  BackOff    4m58s (x411 over 98m)  kubelet, ip-10-0-1-102  Back-off restarting failed container
+
 cloud_user@ip-10-0-1-101:~$ kubectl get pod cart-ws -n candy-store -o yaml --export > broken-pod.yml
-cloud_user@ip-10-0-1-101:~$ vi broken-pod.yml
+
 cloud_user@ip-10-0-1-101:~$ vi broken-pod.yml
 
   restartPolicy: Always

@@ -154,7 +154,8 @@ status:
   readyReplicas: 2
   replicas: 2
   updatedReplicas: 2
-cloud_user@ip-10-0-1-101:~$ vi auth-svc.yml
+
+
 cloud_user@ip-10-0-1-101:~$ vi auth-svc.yml
 cloud_user@ip-10-0-1-101:~$ kubectl apply -f auth-svc.yml
 service/auth-svc created
@@ -263,4 +264,3 @@ auth-deployment-b448d8b76-tmgr2   1/1     Running   0          93m
 data-deployment-dcfff7fd6-k2q7c   1/1     Running   0          93m
 data-deployment-dcfff7fd6-mz6x2   1/1     Running   0          93m
 data-deployment-dcfff7fd6-x29tj   1/1     Running   0          93m
-
