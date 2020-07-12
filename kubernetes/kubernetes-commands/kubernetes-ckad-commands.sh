@@ -55,3 +55,8 @@ service
 -----------------------------------------------------------------------
 kubectl get service
 kubectl get service servicename -o yaml > service.yaml
+
+logs
+-----------------------------------------------------------------------
+kubectl logs -f podname
+kubectl logs -f podname containername
