@@ -110,6 +110,7 @@ kubectl logs podname -c containername
 run
 -----------------------------------------------------------------------
 kubectl run nginx --image=nginx --restart=Never --dry-run=client -o yaml
+kubectl run nginx --image=nginx --restart=Never --port=80 --expose
 kubectl run nginx --image=nginx --restart=Never --port=80 --dry-run=client -o yaml
 kubectl run nginx --image=nginx --restart=Never --labels=env=dev
 kubectl run nginx --image=nginx --restart=Never --labels=env=prod
