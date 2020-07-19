@@ -236,3 +236,67 @@ nginx1-6544df87cd-8swm6   1/1     Running     0          4m8s
 nginx1-6544df87cd-9sxnt   1/1     Running     0          4m7s
 nginx1-6544df87cd-lcqbt   1/1     Running     0          4m17s
 pod1                      1/1     Running     0          43h
+
+Secrets and ConfigMaps
+k create secret generic secret1 --from-literal=password=12345678 --dry-run=client -o yaml > secret1.yml
+k run pod1 --image=bash --dry-run=client -o yaml sleep 9999 > pod1.yaml
+vi pod1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: pod1
+  name: pod1
+spec:
+  volumes:
+    - name: sec-vol
+      secret:
+        secretName: secret1
+  containers:
+  - args:
+    - sleep
+    - "9999"
+    image: bash
+    name: pod1
+    resources: {}
+    volumeMounts:
+      - name: sec-vol
+        mountPath: /tmp/secret1
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+
+k create -f pod1.yaml
+k exec pod1 -- cat /tmp/secret1/password
+mkdir drinks; echo ipa > drinks/beer; echo red > drinks/wine; echo sparkling > drinks/water
+k create configmap drink1 --from-file ./drinks
+
+vi pod1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: pod1
+  name: pod1
+spec:
+  volumes:
+    - name: sec-vol
+      secret:
+        secretName: secret1
+  containers:
+  - args:
+    - sleep
+    - "9999"
+    image: bash
+    name: pod1
+    resources: {}
+    volumeMounts:
+      - name: sec-vol
+        mountPath: /tmp/secret1
+    envFrom:
+      - configMapRef:
+          name: drink1
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+
+k -f pod1.yaml replace --force --grace-period 0
+k exec pod1 env
