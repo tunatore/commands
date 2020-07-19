@@ -107,4 +107,91 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-bash-4.4#
+bash-4.4#'
+
+Cron Jobs and Volumes
+vi pv.yml
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: task-pv-volume
+  labels:
+    id: vol1
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 50Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/k8s-challenge-3"
+
+k create -f pv.yaml
+vi pvc.yml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 40Mi
+  selector:
+    matchLabels:
+      id: vol1
+
+k create -f pvc.yaml
+
+k get pv, pvc
+
+k create cj -h
+k create cj cronjob1 --image=bash --schedule="*/1 * * * *" -o yaml --dry-run=client -- bash -c "hostname >> /tmp/vol/storage" > cronjob1.yaml
+vi cronjob.yaml
+
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  labels:
+    run: cronjob1
+  name: cronjob1
+spec:
+  concurrencyPolicy: Allow
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      parallelism: 2
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            run: cronjob1
+        spec:
+          volumes:
+            - name: cron-vol
+              persistentVolumeClaim:
+                claimName: task-pv-claim
+          containers:
+          - args:
+            - bash
+            - -c
+            - hostname >> /tmp/vol/storage
+            image: bash
+            name: cronjob1
+            resources: {}
+            volumeMounts:
+              - name: cron-vol
+                mountPath: /tmp/vol
+          restartPolicy: Never
+  schedule: '*/1 * * * *'
+  successfulJobsHistoryLimit: 4
+
+k create -f cronjob1.yaml
+
+tail -f /tmp/k8s-challenge-3/storage
+
+kubectl get job,pod
