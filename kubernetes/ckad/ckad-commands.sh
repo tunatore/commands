@@ -195,3 +195,44 @@ k create -f cronjob1.yaml
 tail -f /tmp/k8s-challenge-3/storage
 
 kubectl get job,pod
+
+Deployments, Rollouts, Rollbacks
+
+k create ns one
+k config set-context --current --namespace=one
+k create deploy nginx1 --image=nginx:1.14.2
+k scale deploy nginx1 --replicas=3
+k get pods
+NAME                      READY   STATUS      RESTARTS   AGE
+busybox                   0/1     Completed   0          4d18h
+nginx                     0/1     Completed   0          3d20h
+nginx1-7f5f7bcf68-f5zzt   1/1     Running     0          24s
+nginx1-7f5f7bcf68-llv68   1/1     Running     0          24s
+nginx1-7f5f7bcf68-pr7kf   1/1     Running     0          41s
+pod1                      1/1     Running     0          43h
+
+k edit deploy nginx1
+k set image deploy/nginx1 nginx=nginx:1.15.10
+k set image deploy/nginx1 nginx=nginx:1.15.666
+k get pods
+NAME                      READY   STATUS         RESTARTS   AGE
+busybox                   0/1     Completed      0          4d18h
+nginx                     0/1     Completed      0          3d20h
+nginx1-6544df87cd-8swm6   1/1     Running        0          80s
+nginx1-6544df87cd-9sxnt   1/1     Running        0          79s
+nginx1-6544df87cd-lcqbt   1/1     Running        0          89s
+nginx1-6b5cd94ddc-74r6r   0/1     ErrImagePull   0          44s
+pod1                      1/1     Running        0          43h
+
+k logs nginx1-6b5cd94ddc-74r6r
+k describe pod nginx1-6b5cd94ddc-74r6r
+k rollout history deploy nginx1
+k rollout undo deploy nginx1
+k get pods
+NAME                      READY   STATUS      RESTARTS   AGE
+busybox                   0/1     Completed   0          4d18h
+nginx                     0/1     Completed   0          3d20h
+nginx1-6544df87cd-8swm6   1/1     Running     0          4m8s
+nginx1-6544df87cd-9sxnt   1/1     Running     0          4m7s
+nginx1-6544df87cd-lcqbt   1/1     Running     0          4m17s
+pod1                      1/1     Running     0          43h
