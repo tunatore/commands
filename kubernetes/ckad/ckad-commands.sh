@@ -496,6 +496,175 @@ k delete deploy nginx
 
 k logs nginx-6b48fb65c6-mhm8t sidecar
 
+SecurityContext
+vi pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: bash
+  name: bash
+spec:
+  volumes:
+    - name: share
+      emptyDir: {}
+  containers:
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash1
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash2
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+  restartPolicy: Never
+
+k create -f pod.yaml
+
+k exec bash -c bash1 -- touch /tmp/share/file
+k exec -it bash -c bash2 -- ls -lh /tmp/share/file
+
+vi pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: bash
+  name: bash
+spec:
+  securityContext:
+    runAsUser: 21
+  volumes:
+    - name: share
+      emptyDir: {}
+  containers:
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash1
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash2
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+  restartPolicy: Never
+
+k delete -f pod.yaml
+k create -f pod.yaml
+
+k exec bash -c bash1 -- whoami
+k exec bash -c bash2 -- whoami
+
+vi pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: bash
+  name: bash
+spec:
+  securityContext:
+    runAsUser: 21
+  volumes:
+    - name: share
+      emptyDir: {}
+  containers:
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash1
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+    securityContext:
+      runAsUser: 0
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash2
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+  restartPolicy: Never
+
+k delete -f pod.yaml
+k create -f pod.yaml
+
+vi pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: bash
+  name: bash
+spec:
+  securityContext:
+    runAsUser: 21
+  volumes:
+    - name: share
+      emptyDir: {}
+  initContainers:
+  - name: permission-handler
+    image: bash
+    command:
+    - /bin/sh
+    - -c
+    - chmod og-w -R /tmp/share
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+    securityContext:
+      runAsUser: 0
+  containers:
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash1
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+    securityContext:
+      runAsUser: 0
+  - command:
+    - /bin/sh
+    - -c
+    - sleep 1d
+    image: bash
+    name: bash2
+    volumeMounts:
+      - name: share
+        mountPath: /tmp/share
+  restartPolicy: Never
+
 ReplicaSet without Downtime
 vi pod.yaml
 apiVersion: v1
