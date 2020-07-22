@@ -391,6 +391,72 @@ spec:
 
 k apply -f api-networkpolicy.yaml
 
+Migrate a Service
+k run --help
+k run -h
+
+k create deploy compute --image=byrnedo/alpine-curl --dry-run=client -oyaml > compute.yaml
+
+vi compute.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: compute
+  name: compute
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: compute
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: compute
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - sleep 10d
+        image: byrnedo/alpine-curl
+        name: alpine-curl
+        resources: {}
+status: {}
+
+k create -f compute.yaml
+
+k exec compute-7c669b88f5-527lb -- curl www.google.com:80
+
+k create svc --help
+
+k create svc externalname --help
+
+k create svc externalname webapi --external-name www.google.com
+
+k describe svc webapi
+
+k exec compute-7c669b88f5-527lb -- ping webapi
+
+k exec compute-7c669b88f5-527lb -- curl webapi --header "Host: www.google.com"
+
+k create deploy nginx --image=nginx
+
+k run nginx --image=nginx
+
+k get svc webapi -o yaml > webapi.yaml
+
+k delete -f webapi.yaml
+
+k create -f webapi.yaml
+
+k exec compute-7c669b88f5-527lb -- ping webapi
+
+k exec compute-7c669b88f5-527lb -- curl webapi
+
 Logging Sidecar
 vi deployment.yaml
 apiVersion: apps/v1
