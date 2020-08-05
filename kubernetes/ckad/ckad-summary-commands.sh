@@ -29,3 +29,17 @@ kubectl get pods --all-namespaces
 kubectl create ns mynamespace
 kubectl create -f pod.yaml --namespace=test
 kubectl apply -f pod.yaml --namespace=test
+
+--deployment
+kubectl create deploy nginx-deploy –-image=nginx –-dry-run -oyaml > nginx-deploy.yaml
+kubectl set image deployment/<deployment name> <container name>=<image name> --record
+kubectl set image deploy/nginx nginx=nginx:1.9.1 --record
+kubectl rollout history deployment/<deployment name> --revision=<revision number>
+kubectl rollout undo deployment.v1.apps/<deployment name> --to-revision=<revision number>
+kubectl rollout undo deployment/nginx --to-revision=<revision number>
+kubectl rollout history deployment/nginx --revision=1
+kubectl rollout status deploy/nginx
+kubectl rollout undo deploy/nginx
+kubectl scale deploy/nginx --replicas=3
+kubectl get deploy
+kubectl get deploy nginx --export -o yaml > exported.yaml
