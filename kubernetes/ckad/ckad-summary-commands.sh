@@ -43,3 +43,14 @@ kubectl rollout undo deploy/nginx
 kubectl scale deploy/nginx --replicas=3
 kubectl get deploy
 kubectl get deploy nginx --export -o yaml > exported.yaml
+
+--run
+kubectl run nginx --image=nginx --restart=Never
+kubectl run nginx --image=nginx --restart=Never --dry-run -o yaml > mypod.yaml
+kubectl run crontest  --image=busybox --schedule="*/1 * * * *" --restart=OnFailure --dry-run -o yaml
+kubectl run nginx --image=nginx  --replicas=3
+kubectl run nginx --image=nginx --replicas=3 expose --port=80 --dry-run -o yaml > nginx.yaml
+kubectl run bb-cj --image=busybox --restart=OnFailure --schedule="*/1 * * * *" -- date
+kubectl run bb-job --image=busybox --restart=OnFailure -- /bin/sh -c "sleep 4800"
+kubectl run wordpress --image=wordpress --restart=Never --requests=cpu=200,memory=250Mi --limits=cpu=400m,memory=500Mi
+kubectl run nginx --image=nginx --replicas=3 --labels=tier=frontend
