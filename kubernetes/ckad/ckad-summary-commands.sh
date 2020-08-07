@@ -54,3 +54,15 @@ kubectl run bb-cj --image=busybox --restart=OnFailure --schedule="*/1 * * * *" -
 kubectl run bb-job --image=busybox --restart=OnFailure -- /bin/sh -c "sleep 4800"
 kubectl run wordpress --image=wordpress --restart=Never --requests=cpu=200,memory=250Mi --limits=cpu=400m,memory=500Mi
 kubectl run nginx --image=nginx --replicas=3 --labels=tier=frontend
+kubectl run cm-pod --image=nginx --restart=Never --env=place=holder --dry-run -o yaml > cm-pod.yaml
+
+--create
+kubectl create -f my-pod.yml
+kubectl create job nginx --image=nginx  #job
+kubectl create cronjob nginx --image=nginx --schedule="* * * * *"  #cronJob
+
+--delete
+kubectl delete -f mypod.yaml
+kubectl delete pod my-pod --grace-period=0 --force
+alias kdp='k delete po --force --grace-period=0'
+
