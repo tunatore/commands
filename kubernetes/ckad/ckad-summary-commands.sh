@@ -95,3 +95,21 @@ kubectl delete -f mypod.yaml
 kubectl delete pod my-pod --grace-period=0 --force
 alias kdp='k delete po --force --grace-period=0'
 
+--get
+kubectl get pods --all-namespaces
+kubectl get all --all-namespaces
+kubectl get pod nginx -w
+kubectl get pod -o wide
+kubectl get pod -L app
+kubectl get pod --label-columns=app
+kubectl get pod -l app=v2
+kubectl get pod -l 'app in (v2)'
+kubectl get pod --selector=app=v2
+kubectl get po --show-labels
+kubectl get jobs -w
+kubectl get cm config -o yaml
+kubectl get cm configmap2 -o yaml
+kubectl get cm configmap3 -o yaml
+kubectl get sa --all-namespaces
+kubectl get sa -A
+kubectl get events | grep -i error
