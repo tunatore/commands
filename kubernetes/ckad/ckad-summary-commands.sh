@@ -62,6 +62,7 @@ kubectl run busybox --image=busybox --command --restart=Never -it -- env
 kubectl run busybox --image=busybox --command --restart=Never -- env
 kubectl run busybox --image=busybox --restart=Never --dry-run -o yaml --command -- env > envpod.yaml
 kubectl run nginx --image=nginx --restart=Never --port=80
+kubectl run nginx --image=nginx --restart=Never --port=80 --expose
 kubectl run busybox --image=busybox -it --restart=Never -- echo 'hello world'
 kubectl run busybox --image=busybox -it --restart=Never -- /bin/sh -c 'echo hello world'
 kubectl run busybox --image=busybox -it --rm --restart=Never -- /bin/sh -c 'echo hello world'
@@ -71,6 +72,10 @@ kubectl run busybox --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh
 kubectl run nginx1 --image=nginx --restart=Never --labels=app=v1
 kubectl run nginx --image=nginx --restart=Never --requests='cpu=100m,memory=256Mi' --limits='cpu=200m,memory=512Mi'
 kubectl run nginx --image=nginx --restart=Never --serviceaccount=myuser -o yaml --dry-run > pod.yaml
+kubectl run foo --image=nginx --labels=app=foo --port=8080 --replicas=3
+kubectl run busybox --image=busybox --rm -it --restart=Never -- wget -O- http://nginx:80 --timeout 2
+kubectl run busybox --image=busybox --rm -it --restart=Never --labels=access=granted -- wget -O- http://nginx:80 --timeout 2
+kubectl run busybox --image=busybox --rm -it --restart=Never -- wget -O- 10.1.1.131:80
 
 --create
 kubectl create -f my-pod.yml
@@ -89,6 +94,8 @@ kubectl create configmap anotherone --from-literal=var6=val6 --from-literal=var7
 kubectl create secret generic mysecret --from-literal=password=mypass
 kubectl create secret generic mysecret2 --from-file=username
 kubectl create serviceaccount myuser
+kubectl create deploy foo --image=nginx --dry-run -o yaml > foo.yml
+kubectl create job busybox --image=busybox -- /bin/sh -c 'echo hello;sleep 30;echo world'
 
 --delete
 kubectl delete -f mypod.yaml
@@ -113,3 +120,28 @@ kubectl get cm configmap3 -o yaml
 kubectl get sa --all-namespaces
 kubectl get sa -A
 kubectl get events | grep -i error
+kubectl get svc nginx # services
+kubectl get ep # endpoints
+kubectl get pv
+kubectl get pvc
+
+--label
+kubectl label deploy nginx tier=frontend
+kubectl label deploy nginx tier-
+kubectl label pod nginx2 app=v2 --overwrite
+kubectl label pod nginx1 nginx2 nginx3 app-
+
+--exec
+kubectl exec -it nginx /bin/bash
+kubectl exec -it nginx -- /bin/sh
+kubectl exec -it busybox -c busybox2 -- /bin/sh
+
+--describe
+kubectl describe po stress
+kubectl describe po nginx
+kubectl describe cm config
+
+--various commands
+kubectl top pod -n my-namespace
+kubectl annotate po nginx1 nginx2 nginx3 description='my description'
+kubectl explain pod.spec.containers.livenessProbe
