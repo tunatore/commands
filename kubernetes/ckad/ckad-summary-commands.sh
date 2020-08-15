@@ -12,6 +12,11 @@ set ts=2 sts=2 sw=2 et number
 
 --configMap
 kubectl create configmap app-config --from-literal=key123=value123
+kubectl create configmap config --from-literal=foo=lala --from-literal=foo2=lolo
+kubectl create cm configmap2 --from-file=config.txt
+kubectl create cm configmap3 --from-env-file=config.env
+kubectl create cm configmap4 --from-file=special=config4.txt
+kubectl create configmap anotherone --from-literal=var6=val6 --from-literal=var7=val7
 
 --create secret
 kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt
@@ -19,6 +24,8 @@ kubectl create secret generic db-user-pass --from-file=username=./username.txt -
 kubectl create secret generic dev-db-secret --from-literal=username=devuser --from-literal=password='S!B\*d$zDsb='
 kubectl create secret generic my-secret --from-literal=foo=bar -o yaml --dry-run > my-secret.yaml
 kubectl create secret generic my-secret --from-env-file=myvars.env
+kubectl create secret generic mysecret --from-literal=password=mypass
+kubectl create secret generic mysecret2 --from-file=username
 kubectl get secrets
 kubectl get secret my-secret -o yaml
 
@@ -66,7 +73,7 @@ kubectl run nginx --image=nginx --restart=Never --port=80 --expose
 kubectl run busybox --image=busybox -it --restart=Never -- echo 'hello world'
 kubectl run busybox --image=busybox -it --restart=Never -- /bin/sh -c 'echo hello world'
 kubectl run busybox --image=busybox -it --rm --restart=Never -- /bin/sh -c 'echo hello world'
-kubectl run nginx --image=nginx --restart=Never --env=var1=val1 #create a pod
+kubectl run nginx --image=nginx --restart=Never --env=var1=val1
 kubectl run nginx --restart=Never --image=nginx --env=var1=val1 -it --rm -- env
 kubectl run busybox --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'echo hello;sleep 3600' > pod.yaml
 kubectl run nginx1 --image=nginx --restart=Never --labels=app=v1
@@ -86,13 +93,6 @@ kubectl create -f pod.yaml -n mynamespace
 kubectl create quota myrq --hard=cpu=1,memory=1G,pods=2 --dry-run -o yaml
 kubectl create job busybox --image=busybox -- /bin/sh -c 'echo hello;sleep 30;echo world'
 kubectl create cronjob busybox --image=busybox --schedule="*/1 * * * *" -- /bin/sh -c 'date; echo Hello from the Kubernetes cluster'
-kubectl create configmap config --from-literal=foo=lala --from-literal=foo2=lolo
-kubectl create cm configmap2 --from-file=config.txt
-kubectl create cm configmap3 --from-env-file=config.env
-kubectl create cm configmap4 --from-file=special=config4.txt
-kubectl create configmap anotherone --from-literal=var6=val6 --from-literal=var7=val7
-kubectl create secret generic mysecret --from-literal=password=mypass
-kubectl create secret generic mysecret2 --from-file=username
 kubectl create serviceaccount myuser
 kubectl create deploy foo --image=nginx --dry-run -o yaml > foo.yml
 kubectl create job busybox --image=busybox -- /bin/sh -c 'echo hello;sleep 30;echo world'
