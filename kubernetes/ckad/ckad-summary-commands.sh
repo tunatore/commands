@@ -18,7 +18,7 @@ kubectl create secret generic db-user-pass --from-file=./username.txt --from-fil
 kubectl create secret generic db-user-pass --from-file=username=./username.txt --from-file=password=./password.txt
 kubectl create secret generic dev-db-secret --from-literal=username=devuser --from-literal=password='S!B\*d$zDsb='
 kubectl create secret generic my-secret --from-literal=foo=bar -o yaml --dry-run > my-secret.yaml
-k create secret generic my-secret --from-env-file=myvars.env
+kubectl create secret generic my-secret --from-env-file=myvars.env
 kubectl get secrets
 kubectl get secret my-secret -o yaml
 
