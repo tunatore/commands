@@ -43,7 +43,6 @@ kubectl set image deployment/<deployment name> <container name>=<image name> --r
 kubectl set image deploy/nginx nginx=nginx:1.9.1 --record
 kubectl rollout history deployment/<deployment name> --revision=<revision number>
 kubectl rollout history deploy nginx --revision=6
-kubectl rollout undo deployment.v1.apps/<deployment name> --to-revision=<revision number>
 kubectl rollout undo deployment/nginx --to-revision=<revision number>
 kubectl rollout history deployment/nginx --revision=1
 kubectl rollout status deploy/nginx
@@ -51,35 +50,32 @@ kubectl rollout undo deploy/nginx
 kubectl scale deploy/nginx --replicas=3
 kubectl get deploy
 kubectl get deploy nginx --export -o yaml > exported.yaml
-kubectl create deployment nginx  --image=nginx:1.7.8  --dry-run=client -o yaml > deploy.yaml
+kubectl create deployment nginx --image=nginx:1.7.8 --dry-run=client -o yaml > deploy.yaml
 
 --run
 kubectl run nginx --image=nginx --restart=Never
 kubectl run nginx --image=nginx --restart=Never --dry-run -o yaml > mypod.yaml
-kubectl run crontest  --image=busybox --schedule="*/1 * * * *" --restart=OnFailure --dry-run -o yaml
-kubectl run nginx --image=nginx  --replicas=3
+kubectl run crontest --image=busybox --schedule="*/1 * * * *" --restart=OnFailure --dry-run -o yaml
+kubectl run nginx --image=nginx --replicas=3
 kubectl run nginx --image=nginx --replicas=3 expose --port=80 --dry-run -o yaml > nginx.yaml
-kubectl run bb-cj --image=busybox --restart=OnFailure --schedule="*/1 * * * *" -- date
-kubectl run bb-job --image=busybox --restart=OnFailure -- /bin/sh -c "sleep 4800"
+kubectl run nginx --image=nginx --restart=Never --requests='cpu=100m,memory=256Mi' --limits='cpu=200m,memory=512Mi'
 kubectl run wordpress --image=wordpress --restart=Never --requests=cpu=200,memory=250Mi --limits=cpu=400m,memory=500Mi
 kubectl run nginx --image=nginx --replicas=3 --labels=tier=frontend
 kubectl run cm-pod --image=nginx --restart=Never --env=place=holder --dry-run -o yaml > cm-pod.yaml
 kubectl run nginx --image=nginx --restart=Never -n mynamespace
 kubectl run busybox --image=busybox --command --restart=Never -it -- env
 kubectl run busybox --image=busybox --command --restart=Never -- env
-kubectl run busybox --image=busybox --restart=Never --dry-run -o yaml --command -- env > envpod.yaml
 kubectl run nginx --image=nginx --restart=Never --port=80
-kubectl run nginx --image=nginx --restart=Never --port=80 --expose
 kubectl run busybox --image=busybox -it --restart=Never -- echo 'hello world'
 kubectl run busybox --image=busybox -it --restart=Never -- /bin/sh -c 'echo hello world'
 kubectl run busybox --image=busybox -it --rm --restart=Never -- /bin/sh -c 'echo hello world'
+kubectl run busybox --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'echo hello;sleep 3600' > pod.yaml
+kubectl run busybox --image=busybox --restart=Never --dry-run -o yaml --command -- env > envpod.yaml
 kubectl run nginx --image=nginx --restart=Never --env=var1=val1
 kubectl run nginx --restart=Never --image=nginx --env=var1=val1 -it --rm -- env
-kubectl run busybox --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'echo hello;sleep 3600' > pod.yaml
 kubectl run nginx1 --image=nginx --restart=Never --labels=app=v1
-kubectl run nginx --image=nginx --restart=Never --requests='cpu=100m,memory=256Mi' --limits='cpu=200m,memory=512Mi'
-kubectl run nginx --image=nginx --restart=Never --serviceaccount=myuser -o yaml --dry-run > pod.yaml
 kubectl run foo --image=nginx --labels=app=foo --port=8080 --replicas=3
+kubectl run nginx --image=nginx --restart=Never --serviceaccount=myuser -o yaml --dry-run > pod.yaml
 kubectl run busybox --image=busybox --rm -it --restart=Never -- wget -O- http://nginx:80 --timeout 2
 kubectl run busybox --image=busybox --rm -it --restart=Never --labels=access=granted -- wget -O- http://nginx:80 --timeout 2
 kubectl run busybox --image=busybox --rm -it --restart=Never -- wget -O- 10.1.1.131:80
@@ -137,7 +133,6 @@ kubectl exec -it nginx -- /bin/sh
 kubectl exec -it busybox -c busybox2 -- /bin/sh
 
 --describe
-kubectl describe po stress
 kubectl describe po nginx
 kubectl describe cm config
 
