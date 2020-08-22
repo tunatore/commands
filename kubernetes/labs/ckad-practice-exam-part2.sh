@@ -84,4 +84,3 @@ spec:
 >kubectl get pod counter
 NAME      READY   STATUS    RESTARTS   AGE
 counter   2/2     Running   0          39s
-

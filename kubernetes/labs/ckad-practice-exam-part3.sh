@@ -43,11 +43,8 @@ pebble        square                                  1/1     Running           
 >kubectl get pod bowline -n gem -o json > /usr/ckad/broken-object.json
 Last login: Sun Jun 28 11:45:24 on ttys002
 [oh-my-zsh] Random theme 'skaro' loaded
-893 ~  » ssh cloud_user@35.172.222.71
-The authenticity of host '35.172.222.71 (35.172.222.71)' can't be established.
 ECDSA key fingerprint is SHA256:DDnbug+eE0TYHHrpTZCk72eVpQcdviCE+F9vkcirTLc.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '35.172.222.71' (ECDSA) to the list of known hosts.
 Password:
 Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-1065-aws x86_64)
 

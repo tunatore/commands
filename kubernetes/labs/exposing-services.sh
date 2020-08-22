@@ -155,7 +155,6 @@ status:
   replicas: 2
   updatedReplicas: 2
 
-
 cloud_user@ip-10-0-1-101:~$ vi auth-svc.yml
 cloud_user@ip-10-0-1-101:~$ kubectl apply -f auth-svc.yml
 service/auth-svc created

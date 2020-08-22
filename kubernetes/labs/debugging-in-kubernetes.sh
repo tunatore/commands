@@ -94,10 +94,6 @@ Events:
 >vi broken-pod.yml
 "Last login: Mon Jun 22 21:31:38 on ttys000
 [oh-my-zsh] Random theme 'muse' loaded
-~ ᐅ cloud_user@54.227.22.6
-zsh: command not found: cloud_user@54.227.22.6
-~ ᐅ ssh cloud_user@54.227.22.6
-The authenticity of host '54.227.22.6 (54.227.22.6)' can't be established.
 ECDSA key fingerprint is SHA256:.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added '54.227.22.6' (ECDSA) to the list of known hosts.
