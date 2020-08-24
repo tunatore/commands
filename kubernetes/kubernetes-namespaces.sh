@@ -38,4 +38,3 @@ NAME        READY   STATUS    RESTARTS   AGE
 my-ns-pod   1/1     Running   0          2m29s
 
 >kubectl describe pod my-ns-pod -n my-ns
-

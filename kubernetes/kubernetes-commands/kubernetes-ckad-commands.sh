@@ -26,7 +26,6 @@ kubectl get namespaces
 kubectl get ns
 
 kubectl get pod -n my-ns
-
 kubectl get svc -n my-ns
 
 pod

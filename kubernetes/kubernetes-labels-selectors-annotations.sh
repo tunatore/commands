@@ -125,4 +125,3 @@ spec:
     image: nginx
 
 >kubectl describe pod my-annotation-pod
-

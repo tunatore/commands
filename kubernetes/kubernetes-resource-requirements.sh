@@ -32,4 +32,3 @@ my-securitycontext-pod    0/1     CrashLoopBackOff   10         97m
 shell-demo                1/1     Running            0          46h
 
 >kubectl describe pod my-resource-pod
-

@@ -80,4 +80,3 @@ myKey
 myValue
 >kubectl exec my-configmap-volume-pod -- cat /etc/config/anotherKey
 anotherValue
-
