@@ -144,9 +144,7 @@ spec:
       id: vol1
 
 k create -f pvc.yaml
-
 k get pv, pvc
-
 k create cj -h
 k create cj cronjob1 --image=bash --schedule="*/1 * * * *" -o yaml --dry-run=client -- bash -c "hostname >> /tmp/vol/storage" > cronjob1.yaml
 vi cronjob.yaml
@@ -191,9 +189,7 @@ spec:
   successfulJobsHistoryLimit: 4
 
 k create -f cronjob1.yaml
-
 tail -f /tmp/k8s-challenge-3/storage
-
 kubectl get job,pod
 
 Deployments, Rollouts, Rollbacks
@@ -394,7 +390,6 @@ k apply -f api-networkpolicy.yaml
 Migrate a Service
 k run --help
 k run -h
-
 k create deploy compute --image=byrnedo/alpine-curl --dry-run=client -oyaml > compute.yaml
 
 vi compute.yaml
@@ -428,33 +423,19 @@ spec:
 status: {}
 
 k create -f compute.yaml
-
 k exec compute-7c669b88f5-527lb -- curl www.google.com:80
-
 k create svc --help
-
 k create svc externalname --help
-
 k create svc externalname webapi --external-name www.google.com
-
 k describe svc webapi
-
 k exec compute-7c669b88f5-527lb -- ping webapi
-
 k exec compute-7c669b88f5-527lb -- curl webapi --header "Host: www.google.com"
-
 k create deploy nginx --image=nginx
-
 k run nginx --image=nginx
-
 k get svc webapi -o yaml > webapi.yaml
-
 k delete -f webapi.yaml
-
 k create -f webapi.yaml
-
 k exec compute-7c669b88f5-527lb -- ping webapi
-
 k exec compute-7c669b88f5-527lb -- curl webapi
 
 Logging Sidecar
@@ -491,7 +472,6 @@ spec:
 status: {}
 
 k create -f deployment.yaml
-
 vi loadbalancer.yaml
 apiVersion: v1
 kind: Service
@@ -512,9 +492,7 @@ status:
   loadBalancer: {}
 
 k create -f loadbalancer.yaml
-
 k edit deploy nginx
-
 k nginx -o yaml --export > d_nginx.yaml
 
 apiVersion: apps/v1
@@ -559,7 +537,6 @@ status: {}
 
 k replace deploy -f deployment.yaml
 k delete deploy nginx
-
 k logs nginx-6b48fb65c6-mhm8t sidecar
 
 SecurityContext
@@ -638,7 +615,6 @@ spec:
 
 k delete -f pod.yaml
 k create -f pod.yaml
-
 k exec bash -c bash1 -- whoami
 k exec bash -c bash2 -- whoami
 
@@ -747,9 +723,7 @@ spec:
     name: pod-calc
 
 k create -f pod.yaml
-
 k label pod pod-calc id=calc
-
 k get pod --show-labels
 
 vi replicaset.yaml
