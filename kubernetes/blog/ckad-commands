@@ -1,0 +1,122 @@
+Kubernetes(k8s) commands which will help you to create sources imperatively.
+You can also use yaml files to create Kubernetes(k8s) resources in a declarative way, but these commands help you to create whatever you want in a quick way.
+
+Vim settings that help you to use it with yaml files.
+
+type vi ~/.vimrc
+set number
+set tabstop=2 shiftwidth=2 expandtab
+. ~/.vimrc
+
+Or (same as the above):
+
+type vi ~/.vimrc
+set ts=2 sts=2 sw=2 et number
+. /~.vimrc
+
+Style formatting: kubectl command # comment/explanation of the command  ConfigMaps (A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume) - https://kubernetes.io/docs/concepts/configuration/configmap/
+
+kubectl create configmap <config-map-name> --from-literal=key=value
+kubectl create configmap <config-map-name> --from-literal=key=value --from-literal=key2=value2
+kubectl create configmap <config-map-name> --from-literal=key=value --from-literal=key2=value2 -o yaml --dry-run > secret.yaml
+kubectl create cm <config-map-name> --from-file=config-map.txt
+kubectl get configmap <config-map-name>
+
+Secrets (Kubernetes Secrets let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys. Storing confidential information in a Secret is safer and more flexible than putting it verbatim in a Pod definition or in a container image) - https://kubernetes.io/docs/concepts/configuration/secret/
+
+kubectl create secret generic <secret-name> --from-file=./secret.txt
+kubectl create secret generic <secret-name> --from-literal=username=testuser --from-literal=password=‘test-password’
+kubectl create secret generic <secret-name> --from-literal=username=testuser -o yaml --dry-run > secret.yaml
+kubectl get secrets
+
+Namespaces (Kubernetes supports multiple virtual clusters backed by the same physical cluster. These virtual clusters are called namespaces.) - https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+
+kubectl create ns <namespace-name>
+kubectl create namespace <namespace-name>
+kubectl create -f pod.yaml --namespace=<namespace-name>
+kubectl get pods --all-namespaces
+kubectl get namespaces
+
+Deployments (A Deployment provides declarative updates for Pods ReplicaSets You describe a desired state in a Deployment, and the Deployment Controller
+changes the actual state to the desired state at a controlled rate. You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.) - https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+kubectl create deploy <deployment-name> –-image=<image-name> –-dry-run -oyaml > deploy.yaml
+kubectl create deployment <deployment-name> --image=<image-name> --dry-run=client -o yaml > deploy.yaml
+kubectl set image deployment/<deployment-name> <container-name>=<image-name> --record
+kubectl rollout undo deployment/<deployment-name> --to-revision=<revision-number>
+kubectl get deploy
+kubectl get deployments
+
+run (Create and run a particular image in a pod.) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run 
+kubectl run <pod-name> --image=<image-name> --restart=Never
+kubectl run <pod-name> --image=<image-name> --restart=Never --dry-run -o yaml > pod.yaml
+kubectl run <pod-name> --image=<image-name> --restart=Never --requests='cpu=100m,memory=512Mi' --limits='cpu=200m,memory=1024Mi'
+kubectl run <pod-name> --image=<image-name> --restart=Never --requests=cpu=200,memory=512Mi --limits=cpu=400m,memory=1021Mi
+kubectl run <pod-name> --image=<image-name> --command --restart=Never -it -- env
+kubectl run <pod-name> --image=<image-name> -it --restart=Never -- echo 'hello world'
+kubectl run <pod-name> --image=<image-name> --restart=Never --labels=label1=value1
+kubectl run <pod-name> --image=<image-name>  --restart=Never -o yaml --dry-run -- /bin/sh -c 'echo hello world;sleep 6000’ > pod.yaml
+kubectl run <pod-name> --image=<image-name>  --restart=Never --dry-run -o yaml --command -- env > pod.yaml
+
+create (Create a resource from a file or from stdin. JSON and YAML formats are accepted.) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create
+
+kubectl create -f pod.yml
+kubectl create job <job-name> --image=<image-name>
+kubectl create cronjob <cron-job-name> --image=<image-name> --schedule="* * * * *"
+kubectl create quota <quota-name> --hard=cpu=2,memory=2G,pods=6 --dry-run -o yaml
+kubectl create serviceaccount <service-account-name>
+kubectl create job <job-name> --image=<image-name> -- /bin/sh -c 'echo helloworld;sleep 6000;echo kubernetes CKAD’
+
+delete (Delete resources by filenames, stdin, resources and names, or by resources and label selector. JSON and YAML formats are accepted. Only one type of the arguments may be specified: filenames, resources and names, or resources and label selector.) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#delete
+
+kubectl delete -f pod.yaml
+kubectl delete pod <pod-name> --grace-period=0 --force
+kubectl delete pods,services -l label=value
+kubectl -n <namespace-name> delete pod,svc --all
+
+get (Display one or many resources) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get
+
+kubectl get pods --all-namespaces
+kubectl get all --all-namespaces
+kubectl get pod -l label=value
+kubectl get pod -l 'label in (value)’
+kubectl get configmap config -o yaml
+kubectl get serviceaccount --all-namespaces
+kubectl get endpoints
+kubectl get ep
+kubectl get persistentvolumes
+kubectl get pv
+kubectl get pvc
+
+label (Update the labels on a resource.) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#label
+
+kubectl label deploy <deployment-name> label=value
+kubectl label deploy <deployment-name> label-
+kubectl label pod <pod-name> label=value1 --overwrite
+kubectl label pod <pod-name1> <pod-name2> <pod-name3> label-
+
+exec (Execute a command in a container.) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#exec
+
+kubectl exec -it <pod-name> /bin/bash
+kubectl exec -it <pod-name> -- /bin/sh
+kubectl exec -it <pod-name> -c <container-name> -- /bin/sh
+
+describe (Show details of a specific resource or group of resources) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#describe
+
+kubectl describe pod <pod-name>
+kubectl describe configmap <config-map-name>
+
+various commands 
+kubectl top pod -n <namespace-name>
+kubectl annotate po <pod-name1> <pod-name2> <pod-name3> description='my description'
+kubectl explain pod.spec.containers.livenessProbe
+
+logs (Print the logs for a container in a pod or specified resource. If the pod has only one container, the container name is optional.) - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#logs
+
+kubectl logs <pod-name>
+kubectl logs -l name=<label-name>
+kubectl logs <pod-name> -c <container-name>
+kubectl logs <pod-name> --container <container-name>
+kubectl logs -l name=<label-name> -c <container-name>
+kubectl logs -f <pod-name>
+kubectl logs -f <pod-name> -c <container-name>
