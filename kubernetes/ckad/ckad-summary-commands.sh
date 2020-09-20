@@ -94,6 +94,7 @@ kubectl create deploy foo --image=nginx --dry-run -o yaml > foo.yml
 kubectl create job busybox --image=busybox -- /bin/sh -c 'echo hello;sleep 30;echo world'
 
 --delete
+kubectl delete pods,services -l <label-key>=<label-value> # delete all pods and services with the label-key=label-value
 kubectl delete -f mypod.yaml
 kubectl delete pod my-pod --grace-period=0 --force
 alias kdp='k delete po --force --grace-period=0'
@@ -131,8 +132,11 @@ kubectl label pod nginx1 nginx2 nginx3 app-
 kubectl exec -it nginx /bin/bash
 kubectl exec -it nginx -- /bin/sh
 kubectl exec -it busybox -c busybox2 -- /bin/sh
+kubectl exec <pod-name> -c <container-name> -- date
 
 --describe
+kubectl describe pods # describe all pods
+kubectl describe pods/<pod-name>
 kubectl describe po nginx
 kubectl describe cm config
 
