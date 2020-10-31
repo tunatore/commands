@@ -98,6 +98,7 @@ kubectl delete pods,services -l <label-key>=<label-value> # delete all pods and 
 kubectl delete -f mypod.yaml
 kubectl delete pod my-pod --grace-period=0 --force
 alias kdp='k delete po --force --grace-period=0'
+kubectl delete all --all
 
 --get
 kubectl get pods --all-namespaces

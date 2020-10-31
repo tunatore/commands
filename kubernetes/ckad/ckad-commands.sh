@@ -844,3 +844,6 @@ k get pod --show-labels
 k get rs --show-labels
 k run nginx --image=nginx --labels="app=nginx,pod-template-hash=f89759699"
 k get pods
+
+#Delete all resources
+kubectl delete all --all
