@@ -122,6 +122,9 @@ kubectl get svc nginx # services
 kubectl get ep # endpoints
 kubectl get pv
 kubectl get pvc
+kubectl get po # get all pods
+kubectl get po -l run=nginx # if you create deployment by run command
+kubectl get po -l app=nginx # if you create deployment by create command
 
 --label
 kubectl label deploy nginx tier=frontend
