@@ -47,6 +47,7 @@ kubectl rollout undo deployment/nginx --to-revision=<revision number>
 kubectl rollout history deployment/nginx --revision=1
 kubectl rollout status deploy/nginx
 kubectl rollout undo deploy/nginx
+kubectl rollout restart deployment/nginx
 kubectl scale deploy/nginx --replicas=3
 kubectl get deploy
 kubectl get deploy nginx --export -o yaml > exported.yaml
@@ -103,6 +104,8 @@ kubectl delete all --all
 --get
 kubectl get pods --all-namespaces
 kubectl get all --all-namespaces
+kubectl get all
+kubectl get all -n namespace
 kubectl get pod nginx -w
 kubectl get pod -o wide
 kubectl get pod -L app
