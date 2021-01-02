@@ -141,6 +141,19 @@ kubectl exec -it nginx -- /bin/sh
 kubectl exec -it busybox -c busybox2 -- /bin/sh
 kubectl exec <pod-name> -c <container-name> -- date
 
+--explain
+kubectl explain pods
+kubectl explain pod.spec
+kubectl explain pod.spec.containers
+kubectl explain pod.spec.containers.image
+kubectl explain job.spec.parallelism
+kubectl explain job.spec.completions
+kubectl explain job.spec.activeDeadlineSeconds
+kubectl explain pod.spec.containers.livenessProbe
+kubectl explain pod.spec.containers.livenessProbe.httpGet
+kubectl explain pod.spec.containers.readinessProbe
+kubectl explain pod.spec.containers.readinessProbe.exec
+
 --describe
 kubectl describe pods # describe all pods
 kubectl describe pods/<pod-name>
