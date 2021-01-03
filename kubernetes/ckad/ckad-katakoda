@@ -107,6 +107,32 @@ kubectl apply -f 5.yaml
 kubectl run yo-namaste --image=nginx --serviceaccount=namaste
 
 -Multi-container Pods
+1- kubectl run mp-hello --image=alpine --dry-run=client --restart=Never -oyaml > 1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: mp-hello
+  name: mp-hello
+spec:
+  containers:
+  - image: consul:1.8
+    name: consul
+  - image: nginx
+    name: nginx
+  - image: alpine
+    name: alpine
+    args:
+      - sleep
+      - infinity
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+
+-Observability
+
 
 
 
