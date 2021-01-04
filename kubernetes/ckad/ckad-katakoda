@@ -211,11 +211,24 @@ kubectl annotate nodes node01 flagship-
 6- kubectl get pods -n skywalker -l jedi=true -ojsonpath="{range .items[*]}{.metadata.name},{.spec.containers[0].image}{'\n'}{end}" > /root/jedi-true.txt
 
 -Service & Networking
-
-
-
-
-
-
-
+1- kubectl run ig-11 --image=nginx --port=80 --restart=Never
+2- kubectl expose pod ig-11 --name=greef --port=8080 --target-port=80
+3- kubectl expose deployment cara --port=80 --type=NodePort
+kubectl edit service cara
+4- kubectl get svc geonosis -oyaml
+   vi 4.yaml
+   apiVersion: networking.k8s.io/v1
+   kind: NetworkPolicy
+   metadata:
+     name: geonosis-shield
+   spec:
+     podSelector:
+       matchLabels:
+         sector: arkanis
+     ingress:
+     - from:
+       - podSelector:
+           matchLabels:
+             empire: "true"
+    kubectl apply -f 4.yaml
 
