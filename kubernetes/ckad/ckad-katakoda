@@ -198,6 +198,20 @@ kubectl apply -f /root/coruscant.yaml
 vi /root/high-cpu.yaml
 
 -Pod Design
+1- kubectl create ns planets
+kubectl create deploy hoth --image=httpd -n planets
+kubectl scale deployment/hoth --replicas=4 -n planets
+kubectl set image deploy hoth httpd=httpd:2.4.46 -n planets
+2- kubectl rollout undo deploy yavin
+kubectl get deploy yavin -ojson > /root/yavin.json
+3- kubectl autoscale deploy naboo --name=naboo --min=2 --max=5 --cpu-percent=80
+4- kubectl create cronjob bespin --image=alpine --schedule='*/5 * * * *' -- date
+5- kubectl label node node01 shuttle=true
+kubectl annotate nodes node01 flagship-
+6- kubectl get pods -n skywalker -l jedi=true -ojsonpath="{range .items[*]}{.metadata.name},{.spec.containers[0].image}{'\n'}{end}" > /root/jedi-true.txt
+
+-Service & Networking
+
 
 
 
