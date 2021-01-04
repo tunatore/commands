@@ -132,8 +132,72 @@ spec:
 status: {}
 
 -Observability
+1- kubectl run myredis --image=redis --dry-run=client --restart=Never -oyaml > 1.yaml
+vi 1.yaml
+kubectl explain pod.spec.containers.livenessProbe
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: myredis
+  name: myredis
+spec:
+  containers:
+  - image: redis
+    name: myredis
+    livenessProbe:
+      exec:
+        command:
+          - redis-cli
+          - PING
+      initialDelaySeconds: 5
+    readinessProbe:
+      exec:
+        command:
+          - redis-cli
+          - PING
+      initialDelaySeconds: 5
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+kubectl apply -f 1.yaml
+2- kubectl explain pod.spec.containers.readinessProbe.httpGet
+kubectl run httptest --image=kennethreitz/httpbin --dry-run=client --restart=Never -oyaml > 2.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: httptest
+  name: httptest
+spec:
+  containers:
+  - image: kennethreitz/httpbin
+    name: httptest
+    readinessProbe:
+      httpGet:
+        path: /status/200
+        port: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+kubectl apply -f 2.yaml
+3- kubectl run myenv --image=alpine --restart=Never -- sh -c "printenv && sleep 1h"
+kubectl logs myenv > /root/myenv.log
+kubectl delete pod myenv
+4- kubectl describe pod tatooine
+kubectl get pod tatooine -oyaml > 4.yaml
+kubectl delete po tatooine --grace-period=0 --force
+kubectl apply -f 4.yaml
+5- kubectl create sa non-default-sa
+kubectl apply -f /root/coruscant.yaml
+6- kubectl top pod --all-namespaces
+vi /root/high-cpu.yaml
 
-
+-Pod Design
 
 
 
