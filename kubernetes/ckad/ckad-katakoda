@@ -232,3 +232,114 @@ kubectl edit service cara
              empire: "true"
     kubectl apply -f 4.yaml
 
+- State Persistence
+1- kubectl run vader --image=nginx --restart=Never --dry-run=client -oyaml > 1.yaml
+cat 1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: vader
+  name: vader
+spec:
+  volumes:
+  - name: vader-vol
+    emptyDir: {}
+  containers:
+  - image: nginx
+    name: vader
+    volumeMounts:
+    - name: vader-vol
+      mountPath: /var/www/html
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+2- kubectl edit pvc maul-pvc
+kubectl delete pvc maul-pvc --force
+kubectl apply -f /tmp/kubectl-edit-w8msd.yaml
+3- cat 3pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sidious-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 200Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/mysql"
+
+cat 3pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sidious-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+cat 3.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: sidious
+  name: sidious
+spec:
+  volumes:
+    - name: sidious-vol
+      persistentVolumeClaim:
+        claimName: sidious-pvc
+  containers:
+  - image: mysql
+    name: sidious
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: my-secret-pw
+    resources: {}
+    volumeMounts:
+      - mountPath: "/var/lib/mysql"
+        name: sidious-vol
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+kubectl apply -f 3.yaml
+4- kubectl run dooku --image=redis --restart=Never --dry-run=client -oyaml > 4.yaml
+cat 4.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: dooku
+  name: dooku
+spec:
+  containers:
+  - image: redis
+    name: dooku
+    volumeMounts:
+    - mountPath: /var/log/dooku
+      name: dooku-logs
+  - image: nginx
+    name: nginx
+    volumeMounts:
+    - mountPath: /var/log/dooku
+      name: dooku-logs
+    resources: {}
+  volumes:
+  - name: dooku-logs
+    hostPath:
+      path: /data/dooku
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+
+kubectl apply -f 4.yaml
