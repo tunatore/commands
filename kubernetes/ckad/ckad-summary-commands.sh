@@ -10,6 +10,9 @@ vi ~/.vimrc
 set ts=2 sts=2 sw=2 et number
 . /~.vimrc
 
+--update minikube kubernetes version
+minikube start --kubernetes-version v1.19.0
+
 --configMap
 kubectl create configmap app-config --from-literal=key123=value123
 kubectl create configmap config --from-literal=foo=lala --from-literal=foo2=lolo
