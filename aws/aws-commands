@@ -15,3 +15,16 @@
 
 #AWS SQS
 aws sqs get-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/80398EXAMPLE/MyNewQueue --attribute-names MaximumMessageSize VisibilityTimeout
+-read sqs message
+aws sqs --profile profile --region us-east-1 receive-message --queue-url queuename >> sqs-deadletter-message.txt
+
+#AWS Kinesis
+-read Kinesis stream
+SHARD_ITERATOR=$(aws kinesis get-shard-iterator --profile profile --region us-east-1 --shard-id shardId-000000000011 --shard-iterator-type LATEST --stream-name streamname --query 'ShardIterator')
+aws kinesis get-records --profile profile --region us-east-1 --shard-iterator $SHARD_ITERATOR
+
+-put records
+kinesis put-record --profile profile --region us-east-1 --stream-name streamname --partition-key 123 --data testdata
+
+-get information about the stream
+aws kinesis describe-stream-summary --profile profile --stream-name streamname
