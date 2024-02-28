@@ -18,3 +18,5 @@
 >gradle test --continue
 
 >gradle tasks --all
+>gradle build
+>gradle bootRun
