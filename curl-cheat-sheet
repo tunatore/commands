@@ -13,6 +13,7 @@ curl -v https://www.google.com -o test_curl_output.txt
 -X explicit method
 
 -headers
+-i  - include HTTP headers in the output
 >curl -I https://www.google.com
 
 -data
@@ -37,3 +38,7 @@ curl -u username:password ftp://server//file -o output-filename
 
 -curl upload a file
 curl -u username:password --upload-file uploadFile ftp://server/filename
+
+Some extra curl commands:
+
+curl -v --http2 https://www.google.com/
