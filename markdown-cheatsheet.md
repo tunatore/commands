@@ -43,3 +43,17 @@ Horizontal line
 - unordered list item1
 - unordered list item2
 
+> [!NOTE]
+> Note line
+
+> [!TIP]
+> Tip line 1
+
+> [!WARNING]
+> Warning line
+
+> [!CAUTION]
+> Caution line
+
+> [!IMPORTANT]  
+> Important line
